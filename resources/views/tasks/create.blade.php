@@ -21,7 +21,7 @@
             </div>
             <div class="mb-3">
                 <label for="is_completed" class="form-label">Completed</label>
-                <input type="checkbox" id="is_completed" name="is_completed" value="1">
+                <input type="checkbox" id="is_completed" name="is_completed" value="1" {{ old('is_completed') ? 'checked' : '' }}>
             </div>
             <button type="submit" class="btn btn-primary">Create Task</button>
         </form>

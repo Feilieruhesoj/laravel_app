@@ -47,7 +47,21 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Validate the form data
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'nullable',
+            'is_completed' => 'sometimes|boolean', // Ensure it's a boolean if provided
+        ]);
+
+        // Set default value for is_completed if not provided
+        $validatedData['is_completed'] = $request->has('is_completed') ? $request->input('is_completed') : false;
+
+        // Create a new task in the database
+        Task::create($validatedData);
+
+        // Redirect to the tasks index page with a success message
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully!');
     }
 
     /**
@@ -64,19 +78,22 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       // Validate the form data
+        // Validate the form data
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
-            'is_completed' => 'boolean',
+            'is_completed' => 'sometimes|boolean', // Ensure it's a boolean if provided
         ]);
-
+    
+        // Set default value for is_completed if not provided
+        $validatedData['is_completed'] = $request->has('is_completed') ? $request->input('is_completed') : false;
+    
         // Find the task by ID
         $task = Task::findOrFail($id);
-
+    
         // Update the task with the validated data
         $task->update($validatedData);
-
+    
         // Redirect to the tasks index page with a success message
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully!');
     }

@@ -37,6 +37,15 @@
         .btn-delete:hover {
             background: #c82333;
         }
+        .task-status {
+            font-weight: bold;
+        }
+        .task-status.completed {
+            color: green;
+        }
+        .task-status.not-completed {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -54,6 +63,12 @@
                     <div>
                         <a href="{{ route('tasks.show', $task->id) }}" class="h5">{{ $task->title }}</a>
                         <p class="mb-0 text-muted">{{ $task->description }}</p>
+                        <p class="mb-0">
+                            <strong>Status:</strong>
+                            <span class="task-status {{ $task->is_completed ? 'completed' : 'not-completed' }}">
+                                {{ $task->is_completed ? 'Completed' : 'Not Completed' }}
+                            </span>
+                        </p>
                     </div>
                     <div class="task-actions">
                         <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-primary">Edit</a>

@@ -21,7 +21,7 @@
                         <span class="text-danger">Not Completed</span>
                     @endif
                 </p>
-                <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Back to List</a>
+                ref="{{ route('tasks.index') }}" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
     </div>
