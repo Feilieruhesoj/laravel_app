@@ -4,83 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks List</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .task-list {
-            list-style: none;
-            padding: 0;
-        }
-        .task-item {
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .task-item:hover {
-            background: #e9ecef;
-        }
-        .task-actions a {
-            margin-right: 10px;
-        }
-        .btn-delete {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .btn-delete:hover {
-            background: #c82333;
-        }
-        .task-status {
-            font-weight: bold;
-        }
-        .task-status.completed {
-            color: green;
-        }
-        .task-status.not-completed {
-            color: red;
-        }
-    </style>
+    @vite('resources/css/app.css')
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Tasks</h1>
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        <a href="{{ route('tasks.create') }}" class="btn btn-success mb-3">Create New Task</a>
-        <ul class="task-list">
-            @foreach ($tasks as $task)
-                <li class="task-item">
-                    <div>
-                        <a href="{{ route('tasks.show', $task->id) }}" class="h5">{{ $task->title }}</a>
-                        <p class="mb-0 text-muted">{{ $task->description }}</p>
-                        <p class="mb-0">
-                            <strong>Status:</strong>
-                            <span class="task-status {{ $task->is_completed ? 'completed' : 'not-completed' }}">
-                                {{ $task->is_completed ? 'Completed' : 'Not Completed' }}
-                            </span>
-                        </p>
-                    </div>
-                    <div class="task-actions">
-                        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-delete">Delete</button>
-                        </form>
-                    </div>
-                </li>
-            @endforeach
-        </ul>
-    </div>
+    <div class="container mx-auto mt-5">
+            <h1 class="text-2xl font-bold mb-4">Tasks</h1>
+            @if (session('success'))
+                <div class="bg-green-200 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+            <a href="{{ route('tasks.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-3 inline-block">Create New Task</a>
+            <ul class="list-none p-0">
+                @foreach ($tasks as $task)
+                    <li class="bg-gray-100 border border-gray-300 rounded-md p-4 mb-2 flex justify-between items-center hover:bg-gray-200">
+                        <div>
+                            <a href="{{ route('tasks.show', $task->id) }}" class="text-lg font-semibold">{{ $task->title }}</a>
+                            <p class="text-gray-600 mb-0">{{ $task->description }}</p>
+                            <p class="mb-0">
+                                <strong>Status:</strong>
+                                <span class="font-bold {{ $task->is_completed ? 'text-green-500' : 'text-red-500' }}">
+                                    {{ $task->is_completed ? 'Completed' : 'Not Completed' }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="flex items-center">
+                            <a href="{{ route('tasks.edit', $task->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</a>
+                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
 </body>
 </html>
